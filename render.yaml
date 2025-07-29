@@ -1,10 +1,24 @@
 services:
   - type: web
-    name: n8n
+    name: n8n-on-render
     env: docker
     plan: free
-    autoDeploy: true
+    repo: https://github.com/ireneow-happy/n8n-on-render
+    branch: main
+    dockerContext: .
+    dockerfilePath: Dockerfile
+    healthCheckPath: /
     envVars:
       - key: N8N_PORT
         value: 5678
-    dockerfilePath: ./Dockerfile
+      - key: WEBHOOK_TUNNEL_URL
+        value: https://n8n-on-render-zoba.onrender.com
+      - key: N8N_HOST
+        value: n8n-on-render-zoba.onrender.com
+      - key: N8N_EDITOR_BASE_URL
+        value: https://n8n-on-render-zoba.onrender.com
+    disk:
+      name: n8n-data-disk
+      mountPath: /home/node/.n8n
+      sizeGB: 1
+
